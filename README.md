@@ -2,8 +2,6 @@
 
 **miniroute** is a minimal HTTP routing framework based on Python’s built-in `http.server`, designed for lightweight local servers and IPC tooling.
 
-This module is made for users familiar with the `http.server` module, with which it shares the same qualities and flaws.
-
 ## WARNING
 
 I've made this module when I encountered a situation where http protocol was the
