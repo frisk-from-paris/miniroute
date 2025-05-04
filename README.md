@@ -4,25 +4,23 @@
 
 ## WARNING
 
-I've made this module when I encountered a situation where http protocol was the
-simplest way to solve a LOCAL Inter-Process-Communication issue, and I did NOT
-want to add a heavy dependency (like Flask or FastAPI) to the program I was coding.
-I found out that the standard http module would do the job, but was a pain to integrate.
+I've made this module facing a situation where the http protocol was the
+simplest way to solve a LOCAL Inter-Process-Communication issue, and did NOT
+wanted to add any dependency (like Flask or FastAPI) to my project.
+I found out that the standard `http.server` module would do the job, but was a **pain** to integrate.
 
-As the officiel http documentation state : **This is NOT a server to be used in PRODUCTION.
-This module doesn't ADD NEW security issues to the http module, but it doesn't SOLVE them either.**
+As the officiel http documentation state : **This is NOT a server to be used in PRODUCTION.**
 
-## http.server
+**This module doesn't address any security flaws that `http.server` may bring up.**
 
-To understand what the "handler" object passed to your route actually is, you will need to get familiar with how the http.server module operate.
-**You can find its documentation [here](https://docs.python.org/3/library/http.server.html#http.server.HTTPServer)**
+**It's encouraged to be familiar with [http.server documentation before using miniroute](https://docs.python.org/3/library/http.server.html#http.server.HTTPServer)**
 
 ## Features
 
-- Simple route declaration using decorators
-- Pure standard library
+- Simple flask-like route declaration using decorators
+- Purely based on standard libraries
 - No magic, no dependencies
-- Good for local-only HTTP endpoints
+- Good for local-only HTTP endpoints, and non-performant reliant IPC.
 
 ## Installation
 
