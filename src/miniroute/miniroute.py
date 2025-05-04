@@ -111,16 +111,6 @@ class Miniroute:
         router.run(host="127.0.0.1", port=2685)
     ```
 
-    ## WARNING
-
-    I've made this module when I encountered a situation where http protocol was the
-    simplest way to solve a LOCAL Inter-Process-Communication issue, and I did NOT
-    want to add a heavy dependency (like Flask or FastAPI) to the program I was coding.
-    I found out that the standard http module would do the job, but was a pain to integrate.
-
-    As the officiel http documentation state : This is NOT a server to be used in PRODUCTION.
-    This module doesn't ADD security issues to the http module, but it doesn't SOLVE them either.
-
     """
     def __init__(
             self,

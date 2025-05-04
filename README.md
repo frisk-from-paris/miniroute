@@ -1,7 +1,23 @@
 # miniroute
 
 **miniroute** is a minimal HTTP routing framework based on Python’s built-in `http.server`, designed for lightweight local servers and IPC tooling.
+
 This module is made for users familiar with the `http.server` module, with which it shares the same qualities and flaws.
+
+## WARNING
+
+I've made this module when I encountered a situation where http protocol was the
+simplest way to solve a LOCAL Inter-Process-Communication issue, and I did NOT
+want to add a heavy dependency (like Flask or FastAPI) to the program I was coding.
+I found out that the standard http module would do the job, but was a pain to integrate.
+
+As the officiel http documentation state : **This is NOT a server to be used in PRODUCTION.
+This module doesn't ADD NEW security issues to the http module, but it doesn't SOLVE them either.**
+
+## http.server
+
+To understand what the "handler" object passed to your route actually is, you will need to get familiar with how the http.server module operate.
+**You can find its documentation [here](https://docs.python.org/3/library/http.server.html#http.server.HTTPServer)**
 
 ## Features
 
