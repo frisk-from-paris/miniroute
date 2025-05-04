@@ -1,5 +1,5 @@
 # miniroute
-## -------------
+
 **miniroute** is a minimal HTTP routing framework based on Python’s built-in `http.server`, designed for lightweight local servers and IPC tooling.
 
 ### Warning
