@@ -1,8 +1,8 @@
 # miniroute
-
+## -------------
 **miniroute** is a minimal HTTP routing framework based on Python’s built-in `http.server`, designed for lightweight local servers and IPC tooling.
 
-## Warning
+### Warning
 
 I've made this module facing a situation where the http protocol was the
 simplest way to solve a LOCAL Inter-Process-Communication issue, and did NOT
@@ -15,20 +15,20 @@ As the officiel http documentation state : **This is NOT a server to be used in 
 
 **It's encouraged to be familiar with [http.server documentation before using miniroute](https://docs.python.org/3/library/http.server.html#http.server.HTTPServer)**
 
-## Features
+### Features
 
 - Simple flask-like route declaration using decorators
 - Purely based on standard libraries
 - No magic, no dependencies
 - Good for local-only HTTP endpoints, and non-performant reliant IPC.
 
-## Installation
+### Installation
 
 ```bash
 pip install miniroute
 ```
 
-## Usage
+### Usage
 
 ```python
 from miniroute import Miniroute
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     app.run()
 ```
 
-## Route handlers
+### Route handlers
 
 Each route function:
 
@@ -66,7 +66,7 @@ Example:
 return 200, [("Content-Type", "text/plain")], b"OK"
 ```
 
-## License
+### License
 
 PSF License
 You are free to use, modify, and distribute this software under the terms of the Python Software Foundation License.
