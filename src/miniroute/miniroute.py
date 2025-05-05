@@ -22,22 +22,6 @@ class MiniRouter:
     This router is used by Miniroute, which is JUST a really basic implementation of a
     standard BaseHTTPRequestHandler, that allows you to use it like you would with a
     Flask/FastAPI program.
-
-
-    ## ATTENTION PLEASE
-
-    - It's not supposed to be a grand revolutionnary tool.
-    - It certainly DO NOT makes the http.server PRODUCTION ready.
-    - It definitely did not correct nor fixed any security issues the
-        http module has documented.
-
-    ## BUT
-
-    - It simplifies a LOT how a user would add this module to its workflow.
-    - There are less than 100 lines of codes that aren't FROM the python
-        standard library.
-    - If I needed it, maybe you would need it too ?
-
     """
     def __init__(self):
         self.routes = {}
