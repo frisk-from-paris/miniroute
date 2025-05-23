@@ -54,8 +54,8 @@ class MiniHandler(BaseHTTPRequestHandler):
                 self.send_header(key, value)
                 self.end_headers()
                 self.wfile.write(body)
-            else:
-                self.send_error(404, "Not found")
+        else:
+            self.send_error(404, "Not found")
 
 
 class Miniroute(HTTPServer):
