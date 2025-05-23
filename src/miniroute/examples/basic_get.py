@@ -3,7 +3,7 @@ import json
 from miniroute import Miniroute
 
 
-app = Miniroute()
+app = Miniroute(host="localhost", port=5000)
 
 @app.router.get("/")
 def index(handler):
