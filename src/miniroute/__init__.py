@@ -1,1 +1,1 @@
-from .miniroute import Miniroute
+from .miniroute import Miniroute, MiniHandler
