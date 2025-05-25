@@ -1,4 +1,5 @@
 # miniroute/miniroute.py
+from socketserver import ThreadingMixIn
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from typing import Callable, ClassVar
 
@@ -58,21 +59,26 @@ class MiniHandler(BaseHTTPRequestHandler):
             self.send_error(404, "Not found")
 
 
-class Miniroute(HTTPServer):
+class Miniroute(ThreadingMixIn, HTTPServer):
     def __init__(
         self,
         host: str = "localhost",
         port: int = 5000,
         router: MiniRouter = MiniRouter(),
+        quiet: bool = False,
+        daemon_threads: bool = False,
         *args,
         **kwargs
     ) -> None:
         """ Miniroute class to access the server app. """
+        self.daemon_threads = daemon_threads
         handler = MiniHandler
         handler.router = router
         self.router = router
         kwargs.pop("RequestHandlerClass") if "RequestHandlerClass" in kwargs.keys() else None
         args = [a for a in list(args) if not isinstance(a, BaseHTTPRequestHandler)]
+        if quiet:
+            handler.log_message = lambda *args: None # pyright: ignore
         super().__init__((host, port), handler, *args, **kwargs) # pyright: ignore[reportArgumentType]
 
     def run(self, poll_interval: float = 0.5) -> None:
