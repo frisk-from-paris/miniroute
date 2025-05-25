@@ -5,11 +5,16 @@ from typing import Callable, ClassVar
 
 
 class MiniRouter:
-    """ Router for miniroute server.
-    routes: dict[(method: str, path: str)] -> Callable
     """
-    def __init__(self) -> None:
-        self.routes = {}
+    Router for miniroute server.
+
+    Args:
+        routes (dict[(str, str), Callable]): A dict with a tuple of the HTTP
+                method and URI that returns the associated Callable.
+                ! You should not pass a routes dict but decorate your function.
+    """
+    def __init__(self, routes: dict[tuple[str, str], Callable] = {}) -> None:
+        self.routes = routes
 
     def _add(self, method: str, path: str, func: Callable) -> None:
         """ Add a new route to the routes map dict. """
@@ -60,6 +65,16 @@ class MiniHandler(BaseHTTPRequestHandler):
 
 
 class Miniroute(ThreadingMixIn, HTTPServer):
+    """
+    Miniroute class that represents your HTTP server.
+
+    Args:
+        host (str): server name.
+        port (int): port number.
+        router (MiniRouter): MiniRouter instance.
+        quiet (bool): overrides log_message to None.
+        daemon_threads (bool): authorizes concurrency.
+    """
     def __init__(
         self,
         host: str = "localhost",
@@ -70,18 +85,30 @@ class Miniroute(ThreadingMixIn, HTTPServer):
         *args,
         **kwargs
     ) -> None:
-        """ Miniroute class to access the server app. """
-        self.daemon_threads = daemon_threads
+        # HTTPServer magic here
+        kwargs.pop("RequestHandlerClass", None)
+        kwargs.pop("daemon_threads", None)
         handler = MiniHandler
         handler.router = router
-        self.router = router
-        kwargs.pop("RequestHandlerClass") if "RequestHandlerClass" in kwargs.keys() else None
         args = [a for a in list(args) if not isinstance(a, BaseHTTPRequestHandler)]
         if quiet:
             handler.log_message = lambda *args: None # pyright: ignore
-        super().__init__((host, port), handler, *args, **kwargs) # pyright: ignore[reportArgumentType]
+        HTTPServer.__init__(self, (host, port), handler, *args, **kwargs)
+        # Attributs for ThreadingMixIn
+        self.daemon_threads = daemon_threads
+        # Attributes specific for miniroute internal working
+        self.router = router
 
     def run(self, poll_interval: float = 0.5) -> None:
-        """ this method is just running serve_forever() under another name. """
+        """
+        serve_forever() proxy.
+        Handle requests until an explicit shutdown() request.
+        It also calls service_actions(),
+        which may be used by a subclass or mixin to provide actions
+        specific to a given service.
+
+        args:
+            poll_interval (float): Poll for shutdown every poll_interval seconds.
+        """
         self.serve_forever(poll_interval=poll_interval)
 
