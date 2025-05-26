@@ -1,9 +1,9 @@
 import json
 
-from miniroute import Miniroute
+from ..miniroute import Miniroute
 
 
-app = Miniroute(host="localhost", port=5000)
+app = Miniroute(host="localhost", port=2683)
 
 @app.router.get("/")
 def index(handler):
@@ -12,5 +12,6 @@ def index(handler):
     headers = {"Content-Type" : "application/json"}
     return 200, headers, payload
 
-app.run()
+def run():
+    app.run()
 

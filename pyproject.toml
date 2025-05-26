@@ -14,6 +14,10 @@ dependencies = [
 [tool.poetry]
 packages = [{include = "miniroute", from = "src"}]
 
+[tool.poetry.scripts]
+bind = "miniroute.examples.binding:run"
+basic-get = "miniroute.examples.basic_get:run"
+
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

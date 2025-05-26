@@ -88,12 +88,14 @@ class Miniroute(ThreadingMixIn, HTTPServer):
         # HTTPServer magic here
         kwargs.pop("RequestHandlerClass", None)
         kwargs.pop("daemon_threads", None)
-        handler = MiniHandler
-        handler.router = router
+        self._handler = MiniHandler
+        self._handler.router = router
+        self._server_address = (host, port)
         args = [a for a in list(args) if not isinstance(a, BaseHTTPRequestHandler)]
         if quiet:
-            handler.log_message = lambda *args: None # pyright: ignore
-        HTTPServer.__init__(self, (host, port), handler, *args, **kwargs)
+            self._handler.log_message = lambda *args: None # pyright: ignore
+        self._args = args
+        self._kwargs = kwargs
         # Attributs for ThreadingMixIn
         self.daemon_threads = daemon_threads
         # Attributes specific for miniroute internal working
@@ -110,5 +112,6 @@ class Miniroute(ThreadingMixIn, HTTPServer):
         args:
             poll_interval (float): Poll for shutdown every poll_interval seconds.
         """
+        HTTPServer.__init__(self, self._server_address, self._handler, *self._args, **self._kwargs)
         self.serve_forever(poll_interval=poll_interval)
 
