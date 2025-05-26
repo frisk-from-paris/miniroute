@@ -74,6 +74,7 @@ class Miniroute(ThreadingMixIn, HTTPServer):
         router (MiniRouter): MiniRouter instance.
         quiet (bool): overrides log_message to None.
         daemon_threads (bool): authorizes concurrency.
+        legacy (bool): makes this object acts exactly as the HTTPServer
     """
     def __init__(
         self,
@@ -82,6 +83,7 @@ class Miniroute(ThreadingMixIn, HTTPServer):
         router: MiniRouter = MiniRouter(),
         quiet: bool = False,
         daemon_threads: bool = False,
+        legacy: bool = False,
         *args,
         **kwargs
     ) -> None:
@@ -100,6 +102,18 @@ class Miniroute(ThreadingMixIn, HTTPServer):
         self.daemon_threads = daemon_threads
         # Attributes specific for miniroute internal working
         self.router = router
+        self.legacy = legacy
+        if self.legacy:
+            self._init_http_server()
+
+    def _init_http_server(self) -> None:
+        HTTPServer.__init__(
+            self,
+            self._server_address,
+            self._handler,
+            *self._args,
+            **self._kwargs
+        )
 
     def run(self, poll_interval: float = 0.5) -> None:
         """
@@ -112,6 +126,7 @@ class Miniroute(ThreadingMixIn, HTTPServer):
         args:
             poll_interval (float): Poll for shutdown every poll_interval seconds.
         """
-        HTTPServer.__init__(self, self._server_address, self._handler, *self._args, **self._kwargs)
+        if not self.legacy:
+            self._init_http_server()
         self.serve_forever(poll_interval=poll_interval)
 
